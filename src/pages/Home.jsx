@@ -96,7 +96,7 @@ const Home = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-primary mb-12">Bizimlə Əməkdaşlıq Edən Şirkətlər</h2>
-          <div className="flex flex-wrap justify-center gap-8">
+          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8 max-w-6xl mx-auto">
             {partners.map((partner, index) => (
               <motion.a
                 key={index}
@@ -107,16 +107,16 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white p-0 rounded-full shadow-md border border-gray-100 hover:shadow-xl hover:border-blue-300 transition-all hover:-translate-y-2 flex flex-col items-center justify-center w-40 h-40 overflow-hidden relative group cursor-pointer"
+                className="bg-white rounded-full shadow-md border border-gray-100 hover:shadow-xl hover:border-blue-300 transition-all hover:-translate-y-2 flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 overflow-hidden relative group cursor-pointer"
               >
-                <div className="absolute inset-0 flex items-center justify-center p-4 text-center z-0">
-                  <h3 className="text-sm font-bold text-gray-400 group-hover:text-primary transition-colors">{partner.name}</h3>
+                <div className="absolute inset-0 flex items-center justify-center p-1 md:p-2 text-center z-0 opacity-0 group-hover:opacity-100 transition-opacity bg-white/90">
+                  <h3 className="text-[8px] md:text-[10px] lg:text-xs font-bold text-primary leading-tight">{partner.name}</h3>
                 </div>
                 {partner.logo && (
                   <img 
                     src={partner.logo} 
                     alt={partner.name} 
-                    className="w-full h-full object-contain relative z-10 bg-white"
+                    className="w-full h-full object-cover scale-105 relative z-10 bg-white group-hover:opacity-0 transition-opacity duration-300 rounded-full"
                     onError={(e) => e.target.style.opacity = 0}
                   />
                 )}
