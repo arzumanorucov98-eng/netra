@@ -24,7 +24,7 @@ const PackageCard = ({ pkg, index, onSelect }) => {
       <div className="text-center mb-8">
         <h3 className="text-2xl font-bold mb-2 text-white">{pkg.name}</h3>
         <div className="text-3xl font-extrabold text-white mb-4">{pkg.price}</div>
-        <p className="text-white opacity-90 text-sm h-10 leading-relaxed">{pkg.description}</p>
+        <p className="text-white opacity-90 text-sm min-h-[2.5rem] leading-relaxed">{pkg.description}</p>
       </div>
 
       <div className="flex-grow">

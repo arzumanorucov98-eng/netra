@@ -105,6 +105,20 @@ export const packagesData = [
       "4 AI video hazırlanması",
       "TikTok, Instagram və Facebook səhifələrinin idarə olunması"
     ]
+  },
+  {
+    id: 6,
+    name: "Veb Saytların Hazırlanması",
+    price: "Fərdi Qiymət",
+    description: "Biznesinizə uyğun veb sayt həlləri və fərdi qiymət təklifi almaq üçün bizimlə əlaqə saxlayın.",
+    features: [
+      "Domen və Hostinq qurulması",
+      "Mobil və kompüter üçün tam uyğun dizayn",
+      "Peşəkar, səliqəli və istifadəsi rahat görünüş",
+      "Sürətli və müasir veb sayt həlli",
+      "WhatsApp və sosial media inteqrasiyası",
+      "SEO üçün uyğun struktur"
+    ]
   }
 ];
 
