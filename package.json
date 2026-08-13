@@ -9,12 +9,50 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "reactSnap": {
+    "source": "dist",
+    "include": [
+      "/",
+      "/haqqimizda",
+      "/xidmetlerimiz",
+      "/xidmetlerimiz/sosial-media-idareciliyi",
+      "/xidmetlerimiz/instagram-ve-facebook-reklamlari",
+      "/xidmetlerimiz/tiktok-marketinqi",
+      "/xidmetlerimiz/professional-video-cekilis",
+      "/xidmetlerimiz/reels-ve-video-montaj",
+      "/xidmetlerimiz/post-dizaynlari",
+      "/xidmetlerimiz/story-hazirlanmasi",
+      "/xidmetlerimiz/ai-suni-intellekt-video-hazirlanmasi",
+      "/xidmetlerimiz/brend-inkisafi",
+      "/xidmetlerimiz/satis-strategiyalarinin-qurulmasi",
+      "/xidmetlerimiz/veb-saytlarin-hazirlanmasi",
+      "/paketler",
+      "/kataloq",
+      "/blog",
+      "/blog/smm-nedir-ve-ne-ucun-vacibdir",
+      "/blog/instagram-reklami-nece-verilir-tam-beledci",
+      "/blog/azerbaycanda-reqemsal-marketinq-trendler-ve-tovsiyeler",
+      "/blog/veb-sayt-niye-vacibdir-her-biznesin-bilmeli-oldugu-7-sebeb",
+      "/blog/category/smm",
+      "/blog/category/reklam",
+      "/blog/category/strategiya",
+      "/blog/category/veb-sayt"
+    ],
+    "inlineCss": true
+  },
   "dependencies": {
+    "concurrently": "^10.0.3",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "firebase": "^12.15.0",
     "framer-motion": "^11.2.10",
+    "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.383.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.23.1"
+    "react-helmet-async": "^3.0.0",
+    "react-router-dom": "^6.23.1",
+    "react-snap": "^1.23.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

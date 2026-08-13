@@ -14,17 +14,207 @@ export const aboutText = [
 ];
 
 export const servicesList = [
-  "Sosial Media İdarəçiliyi",
-  "Instagram və Facebook Reklamları",
-  "TikTok Marketinqi",
-  "Professional Video Çəkiliş",
-  "Reels və Video Montaj",
-  "Post Dizaynları",
-  "Story Hazırlanması",
-  "AI (Süni İntellekt) Video Hazırlanması",
-  "Brend İnkişafı",
-  "Satış Strategiyalarının Qurulması",
-  "Veb saytların hazırlanması"
+  {
+    slug: 'sosial-media-idareciliyi',
+    title: 'Sosial Media İdarəçiliyi',
+    metaTitle: 'Sosial Media İdarəçiliyi Xidməti | Netra Marketing',
+    metaDescription: 'Peşəkar sosial media idarəçiliyi xidməti. Instagram, Facebook, TikTok hesablarınızın idarə olunması, kontent planı və strategiya.',
+    description: 'Instagram, Facebook və TikTok hesablarınızın peşəkar şəkildə idarə olunması.',
+    content: `Sosial media idarəçiliyi xidmətimiz sizin biznesinizin sosial media platformalarında peşəkar şəkildə təmsil olunmasını təmin edir.
+
+## Xidmətə daxildir:
+
+- Aylıq kontent planının hazırlanması
+- Postların vaxtında paylaşılması
+- Hesabların aktiv saxlanılması
+- Auditoriyanın artırılması strategiyası
+- Hesab analitikası və hesabatlar
+
+Sosial mediada aktiv olmaq brendinizin tanınırlığını artırır və müştəri bazanızı böyüdür. [Instagram və Facebook reklamları](/xidmetlerimiz/instagram-ve-facebook-reklamlari) ilə birlikdə istifadə edildikdə daha effektiv nəticələr əldə edə bilərsiniz.
+
+[Marketinq paketlərimizə](/paketler) baxaraq sizə ən uyğun planı seçə bilərsiniz.`
+  },
+  {
+    slug: 'instagram-ve-facebook-reklamlari',
+    title: 'Instagram və Facebook Reklamları',
+    metaTitle: 'Instagram və Facebook Reklam Xidməti | Netra Marketing',
+    metaDescription: 'Hədəfli Instagram və Facebook reklam kampaniyaları. Target reklam, auditoriya analizi və ROI optimizasiyası ilə biznesinizi böyüdün.',
+    description: 'Hədəfli reklam kampaniyaları ilə potensial müştərilərə çatın.',
+    content: `Instagram və Facebook reklamları biznesinizin hədəf auditoriyasına ən effektiv şəkildə çatmasını təmin edir.
+
+## Reklam Xidmətimizə Daxildir:
+
+- Hədəf auditoriya analizi
+- Reklam kreativlərinin hazırlanması
+- A/B testləri ilə optimallaşdırma
+- Aylıq performans hesabatları
+- Büdcə optimallaşdırması
+
+Reklamlarınızın effektivliyini artırmaq üçün [sosial media idarəçiliyi](/xidmetlerimiz/sosial-media-idareciliyi) xidmətimiz ilə birlikdə istifadə etməyi tövsiyə edirik. Instagram reklamı haqqında daha ətraflı [bu məqaləmizi](/blog/instagram-reklami-nece-verilir-tam-beledci) oxuya bilərsiniz.`
+  },
+  {
+    slug: 'tiktok-marketinqi',
+    title: 'TikTok Marketinqi',
+    metaTitle: 'TikTok Marketinq Xidməti | Netra Marketing',
+    metaDescription: 'TikTok-da biznesinizi böyüdün. Viral kontent strategiyası, TikTok reklamları və hesab idarəçiliyi xidməti.',
+    description: 'TikTok-da viral kontent strategiyası və hesab idarəçiliyi.',
+    content: `TikTok ən sürətlə böyüyən sosial media platformasıdır. Biznesinizi TikTok-da böyütməyə kömək edirik.
+
+## TikTok Xidmətimizə Daxildir:
+
+- TikTok hesabının yaradılması və optimizasiyası
+- Trend analizi və viral kontent strategiyası
+- [Peşəkar video çəkiliş](/xidmetlerimiz/professional-video-cekilis) və montaj
+- TikTok reklam kampaniyaları
+- Hashtag strategiyası
+
+TikTok ilə birlikdə [Reels və video montaj](/xidmetlerimiz/reels-ve-video-montaj) xidmətimiz ilə Instagram-da da video kontentinizi gücləndirə bilərsiniz.`
+  },
+  {
+    slug: 'professional-video-cekilis',
+    title: 'Professional Video Çəkiliş',
+    metaTitle: 'Professional Video Çəkiliş Xidməti | Netra Marketing',
+    metaDescription: 'Peşəkar video çəkiliş xidməti. Reklam videoları, məhsul çəkilişləri, brend videoları Bakıda ən keyfiyyətli video istehsalı.',
+    description: 'Brendiniz üçün peşəkar video çəkiliş xidməti.',
+    content: `Professional video çəkiliş xidmətimiz ilə brendinizin hekayəsini vizual olaraq izah edin.
+
+## Video Çəkiliş Xidmətimizə Daxildir:
+
+- Reklam videoları çəkilişi
+- Məhsul tanıtım videoları
+- Sosial media üçün qısa videolar
+- Müsahibə və testimonial çəkilişləri
+- Professional işıqlandırma və audio
+
+Çəkilmiş videolarınızı [sosial media hesablarınızda](/xidmetlerimiz/sosial-media-idareciliyi) paylaşmaq və [reklam kampaniyalarında](/xidmetlerimiz/instagram-ve-facebook-reklamlari) istifadə etmək mümkündür.`
+  },
+  {
+    slug: 'reels-ve-video-montaj',
+    title: 'Reels və Video Montaj',
+    metaTitle: 'Reels və Video Montaj Xidməti | Netra Marketing',
+    metaDescription: 'Instagram Reels və TikTok üçün peşəkar video montaj xidməti. Trend musiqi, effektlər və yaradıcı montaj.',
+    description: 'Instagram Reels və TikTok üçün peşəkar video montaj.',
+    content: `Qısa video formatı sosial mediada ən çox izlənilən kontent növüdür. Peşəkar montajımızla videolarınızı fərqləndirin.
+
+## Montaj Xidmətimizə Daxildir:
+
+- Instagram Reels montajı
+- TikTok video montajı
+- Trend musiqi və efektlər
+- Altyazı və text overlay
+- Rəng korreksiyası
+
+[Professional video çəkiliş](/xidmetlerimiz/professional-video-cekilis) xidmətimiz ilə birlikdə istifadə edərək tam paket əldə edə bilərsiniz.`
+  },
+  {
+    slug: 'post-dizaynlari',
+    title: 'Post Dizaynları',
+    metaTitle: 'Sosial Media Post Dizayn Xidməti | Netra Marketing',
+    metaDescription: 'Peşəkar sosial media post dizaynları. Instagram, Facebook üçün göz oxşayan, brend üslubuna uyğun kreativ dizaynlar.',
+    description: 'Sosial media üçün peşəkar post dizaynları.',
+    content: `Göz oxşayan post dizaynları ilə sosial mediada fərqlənin. Hər post brendinizin üslubuna uyğun hazırlanır.
+
+## Dizayn Xidmətimizə Daxildir:
+
+- Feed post dizaynları
+- Carousel post dizaynları
+- İnfoqrafik hazırlanması
+- Kampaniya vizualları
+- Brend üslub kitabına uyğun dizayn
+
+Post dizaynları [sosial media idarəçiliyi](/xidmetlerimiz/sosial-media-idareciliyi) paketlərimizin əsas hissəsidir. [Brend inkişafı](/xidmetlerimiz/brend-inkisafi) xidmətimiz ilə vizual identikliyi gücləndiyin.`
+  },
+  {
+    slug: 'story-hazirlanmasi',
+    title: 'Story Hazırlanması',
+    metaTitle: 'Instagram Story Hazırlanması Xidməti | Netra Marketing',
+    metaDescription: 'Peşəkar Instagram və Facebook story hazırlanması. Interaktiv, yaradıcı story dizaynları ilə auditoriyanızla əlaqəni gücləndin.',
+    description: 'Peşəkar Instagram və Facebook story hazırlanması.',
+    content: `Story formatı auditoriyanızla gündəlik əlaqə qurmağın ən effektiv yoludur.
+
+## Story Xidmətimizə Daxildir:
+
+- Gündəlik story planı
+- İnteraktiv story dizaynları (sorğu, quiz, slider)
+- Story highlight dizaynları
+- Animasiyalı story hazırlanması
+- Müştəri rəyi story-ləri
+
+Story-lər [sosial media idarəçiliyi](/xidmetlerimiz/sosial-media-idareciliyi) xidmətimizin vacib hissəsidir.`
+  },
+  {
+    slug: 'ai-suni-intellekt-video-hazirlanmasi',
+    title: 'AI (Süni İntellekt) Video Hazırlanması',
+    metaTitle: 'AI Video Hazırlanması Xidməti | Netra Marketing',
+    metaDescription: 'Süni intellekt texnologiyaları ilə kreativ video hazırlanması. AI-dəstəkli reklam videoları, animasiyalar və vizual efektlər.',
+    description: 'AI texnologiyaları ilə kreativ video istehsalı.',
+    content: `Süni intellekt texnologiyaları ilə brendiniz üçün unikal və yaradıcı videolar hazırlayırıq.
+
+## AI Video Xidmətimizə Daxildir:
+
+- AI ilə video generasiya
+- AI-dəstəkli animasiyalar
+- Deepfake reklam videoları
+- AI voice-over
+- Vizual efektlər
+
+AI video [reklam kampaniyalarında](/xidmetlerimiz/instagram-ve-facebook-reklamlari) istifadə edildikdə auditoriyanın diqqətini çəkir. [Azərbaycanda rəqəmsal marketinq trendləri](/blog/azerbaycanda-reqemsal-marketinq-trendler-ve-tovsiyeler) məqaləmizdə AI trendləri haqqında ətraflı oxuya bilərsiniz.`
+  },
+  {
+    slug: 'brend-inkisafi',
+    title: 'Brend İnkişafı',
+    metaTitle: 'Brend İnkişafı Xidməti | Netra Marketing',
+    metaDescription: 'Peşəkar brend inkişafı xidməti. Logo dizayn, brend identikliyi, vizual üslub kitabı və brend strategiyası.',
+    description: 'Logo, brend identikliyi və vizual üslub strategiyası.',
+    content: `Güclü brend güclü biznesi nəticələndirir. Brendinizin vizual identikliyini peşəkar şəkildə quraq.
+
+## Brend İnkişafı Xidmətimizə Daxildir:
+
+- Logo dizayn
+- Brend rəng paleti
+- Tipografiya seçimi
+- Brend üslub kitabı (Brand Book)
+- Sosial media brend uyğunluğu
+
+Güclü brend [sosial media idarəçiliyi](/xidmetlerimiz/sosial-media-idareciliyi) və [reklam kampaniyalarının](/xidmetlerimiz/instagram-ve-facebook-reklamlari) effektivliyini artırır.`
+  },
+  {
+    slug: 'satis-strategiyalarinin-qurulmasi',
+    title: 'Satış Strategiyalarının Qurulması',
+    metaTitle: 'Satış Strategiyası Qurulması Xidməti | Netra Marketing',
+    metaDescription: 'Biznesiniz üçün effektiv satış strategiyası. Müştəri yolu analizi, konversiya optimallaşdırması və satış hunisi qurulması.',
+    description: 'Biznesiniz üçün effektiv satış strategiyaları.',
+    content: `Doğru satış strategiyası ilə müştərilərinizi artırın və gəlirinizi böyüdün.
+
+## Satış Strategiyası Xidmətimizə Daxildir:
+
+- Müştəri yolu (customer journey) analizi
+- Satış hunisi (sales funnel) qurulması
+- Konversiya optimallaşdırması
+- CRM inteqrasiyası tövsiyələri
+- Aylıq strategiya hesabatları
+
+Satış strategiyası [reklam kampaniyaları](/xidmetlerimiz/instagram-ve-facebook-reklamlari) ilə birgə tətbiq edildikdə ən yüksək nəticəni verir. [Marketinq paketlərimizə](/paketler) baxın.`
+  },
+  {
+    slug: 'veb-saytlarin-hazirlanmasi',
+    title: 'Veb saytların hazırlanması',
+    metaTitle: 'Veb Sayt Hazırlanması Xidməti | Netra Marketing',
+    metaDescription: 'Müasir, responsive və SEO-optimizə edilmiş veb sayt hazırlanması. Korporativ saytlar, e-ticarət, landing page dizaynları.',
+    description: 'Müasir, responsive və SEO-optimizə edilmiş veb saytlar.',
+    content: `Professional veb sayt — biznesinizin onlayn mövcudluğunun təməlidir.
+
+## Veb Sayt Xidmətimizə Daxildir:
+
+- Korporativ veb sayt dizaynı
+- E-ticarət saytları
+- Landing page hazırlanması
+- Mobil uyğunlaşdırma (Responsive dizayn)
+- SEO optimallaşdırma
+- Domain və hosting dəstəyi
+
+Veb saytınız hazır olduqdan sonra [reklam kampaniyalarınızı](/xidmetlerimiz/instagram-ve-facebook-reklamlari) sayta yönləndirərək daha çox nəticə əldə edə bilərsiniz. [Veb sayt niyə vacibdir?](/blog/veb-sayt-niye-vacibdir-her-biznesin-bilmeli-oldugu-7-sebeb) məqaləmizi oxuyun. [Hazırladığımız sayt nümunələrinə](/kataloq) baxın.`
+  }
 ];
 
 export const packagesData = [
@@ -104,20 +294,6 @@ export const packagesData = [
       "Target reklam xidməti",
       "4 AI video hazırlanması",
       "TikTok, Instagram və Facebook səhifələrinin idarə olunması"
-    ]
-  },
-  {
-    id: 6,
-    name: "Veb Saytların Hazırlanması",
-    price: "Fərdi Qiymət",
-    description: "Biznesinizə uyğun veb sayt həlləri və fərdi qiymət təklifi almaq üçün bizimlə əlaqə saxlayın.",
-    features: [
-      "Domen və Hostinq qurulması",
-      "Mobil və kompüter üçün tam uyğun dizayn",
-      "Peşəkar, səliqəli və istifadəsi rahat görünüş",
-      "Sürətli və müasir veb sayt həlli",
-      "WhatsApp və sosial media inteqrasiyası",
-      "SEO üçün uyğun struktur"
     ]
   }
 ];

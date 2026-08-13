@@ -1,0 +1,141 @@
+{
+  "admin": {
+    "username": "admin",
+    "password": "password123",
+    "email": "admin@netramarketing.com"
+  },
+  "companyInfo": {
+    "name": "Netra Marketing",
+    "phone": "+994519784946",
+    "instagram": "https://www.instagram.com/netra.marketing?igsh=MTMxYnRpamxhMWZxdQ%3D%3D&utm_source=qr",
+    "tiktok": "https://vt.tiktok.com/ZSQ3TcMd7/",
+    "whatsapp": "https://wa.me/994519784946",
+    "slogan": "Sosial Media Marketinq Sistemi Qururuq, Biznesləri Böyüdürük."
+  },
+  "aboutText": [
+    "Netra Marketing 5 illik təcrübəyə malik rəqəmsal marketinq agentliyidir. Biz bizneslər üçün sosial media marketinq sistemləri qurur, onların internetdə tanınmasını artırır və davamlı satış əldə etmələrinə kömək edirik.",
+    "Məqsədimiz sadəcə paylaşım etmək deyil, biznesiniz üçün işləyən və nəticə gətirən marketinq sistemi qurmaqdır. Sosial media hesablarınızı aktiv saxlayır, hədəf auditoriyanıza çatdırır və reklam strategiyaları ilə yeni müştərilər qazanmağınıza kömək edirik.",
+    "Netra Marketing olaraq sosial media idarəçiliyi, reklamların idarə olunması, video çəkiliş, dizayn xidmətləri və süni intellekt texnologiyaları ilə bizneslərin böyüməsinə dəstək veririk."
+  ],
+  "categories": [
+    "Bütün",
+    "Korporativ saytlar",
+    "Tikinti şirkəti saytları",
+    "Restoran saytları",
+    "E-ticarət saytları",
+    "Təmizlik şirkəti saytları",
+    "Daşınmaz əmlak saytları",
+    "Klinikalar üçün saytlar",
+    "Təhsil müəssisələri üçün saytlar"
+  ],
+  "websites": [
+    {
+      "id": 2,
+      "name": "BuildMaster - Tikinti Portfeli",
+      "category": "Tikinti şirkəti saytları",
+      "description": "Tikinti layihələrinizi və xidmətlərinizi nümayiş etdirmək üçün ideal şablon. Qalereya və xidmətlər bloku.",
+      "price": 550,
+      "image": "https://images.unsplash.com/photo-1541888086225-f6b28ce94b26?q=80&w=800&auto=format&fit=crop",
+      "demoUrl": "#"
+    },
+    {
+      "id": 3,
+      "name": " Restoran Menyu Saytı",
+      "category": "Restoran saytları",
+      "description": "Müştərilərinizi iştahaçan şəkillər və onlayn menyu ilə cəlb edin. Rezervasiya forması daxildir.",
+      "price": 450,
+      "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800&auto=format&fit=crop",
+      "demoUrl": "#"
+    },
+    {
+      "id": 4,
+      "name": "ShopNow - E-ticarət Platforması",
+      "category": "E-ticarət saytları",
+      "description": "Tam funksional onlayn mağaza. Səbət, ödəniş sistemləri inteqrasiyası və məhsul kataloqu.",
+      "price": 899,
+      "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=800&auto=format&fit=crop",
+      "demoUrl": "#"
+    },
+    {
+      "id": 5,
+      "name": "CleanSweep - Təmizlik Xidmətləri",
+      "category": "Təmizlik şirkəti saytları",
+      "description": "Təmizlik şirkətləri üçün onlayn sifariş formasına sahib rahat və aydın veb sayt.",
+      "price": 399,
+      "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=800&auto=format&fit=crop",
+      "demoUrl": "#"
+    },
+    {
+      "id": 6,
+      "name": "EstatePrime - Əmlak Portalı",
+      "category": "Daşınmaz əmlak saytları",
+      "description": "Evlərin, mənzillərin və ofislərin alqı-satqısı və kirayəsi üçün axtarış sisteminə malik sayt.",
+      "price": 750,
+      "image": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=800&auto=format&fit=crop",
+      "demoUrl": "#"
+    },
+    {
+      "id": 7,
+      "name": "MedCare - Klinika Saytı",
+      "category": "Klinikalar üçün saytlar",
+      "description": "Həkim qəbulu sistemi, şöbələr və xidmətlər barədə ətraflı məlumat olan tibbi veb sayt.",
+      "price": 600,
+      "image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=800&auto=format&fit=crop",
+      "demoUrl": "#"
+    },
+    {
+      "id": 8,
+      "name": "EduSmart - Təhsil Portalı",
+      "category": "Təhsil müəssisələri üçün saytlar",
+      "description": "Məktəb, kurs və ya universitet üçün kursların və xəbərlərin idarə olunduğu platforma.",
+      "price": 550,
+      "image": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop",
+      "demoUrl": "#"
+    },
+    {
+      "id": 9,
+      "name": "NovaBusiness",
+      "category": "Korporativ saytlar",
+      "description": "Startaplar və yeni bizneslər üçün uyğun, bir səhifəlik (Landing Page) korporativ dizayn.",
+      "price": 350,
+      "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop",
+      "demoUrl": "#"
+    }
+  ],
+  "packages": [
+    {
+      "id": 1,
+      "name": "Brend Quruculuğu Paketi",
+      "price": "200 AZN",
+      "description": "Biznesinizi sosial mediada peşəkar şəkildə təqdim etmək üçün bütün səhifələrinizi sıfırdan qururuq.",
+      "features": [
+        "Instagram və Facebook səhifələrinin yaradılması",
+        "Peşəkar bioqrafiyanın hazırlanması",
+        "Profil və loqo yerləşdirilməsi",
+        "Highlight (Qapaq Hekayə) dizaynlarının hazırlanması"
+      ],
+      "targetAudience": "Bu paket yeni fəaliyyətə başlayan və ya sosial media hesablarını peşəkar səviyyədə qurmaq istəyən bizneslər üçün nəzərdə tutulub."
+    },
+    {
+      "id": 2,
+      "name": "Start Paketi",
+      "price": "500 AZN / Ay",
+      "description": "Sosial mediada aktivliyə başlamaq üçün ideal paket.",
+      "features": [
+        "Həftədə 1 dəfə video çəkiliş",
+        "Aylıq 20 story paylaşımı",
+        "Target reklam xidməti",
+        "TikTok səhifəsinin idarə olunması",
+        "Instagram səhifəsinin idarə olunması",
+        "Facebook səhifəsinin idarə olunması"
+      ]
+    }
+  ],
+  "orders": [],
+  "seo": {
+    "title": "Netra Marketing - Rəqəmsal Marketinq Agentliyi",
+    "description": "Sosial media marketinq sistemi qururuq, biznesləri böyüdürük. SMM, və Veb Saytların hazırlanması.",
+    "analytics": "",
+    "pixel": ""
+  }
+}

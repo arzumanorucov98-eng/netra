@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Instagram, MessageCircle } from 'lucide-react';
-import { companyInfo } from '../data/content';
+import { Instagram, MapPin, Phone, Mail, ArrowRight } from 'lucide-react';
+import { useData } from '../context/DataContext';
 
 const Footer = () => {
+  const { companyInfo } = useData();
   return (
     <footer id="contact" className="bg-primary text-white py-12 border-t border-accent">
       <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">

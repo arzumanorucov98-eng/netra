@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Menu, X } from 'lucide-react'; 
-import { companyInfo } from '../data/content';
+import { Instagram, Menu, X, ShoppingBag } from 'lucide-react'; 
+import { useData } from '../context/DataContext';
+import { useCart } from '../context/CartContext';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { cartItems, setIsCartOpen } = useCart();
+  const { companyInfo } = useData();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -29,11 +32,13 @@ const Header = () => {
           <Link to="/haqqimizda" className="hover:text-gray-300 transition-colors">Haqqımızda</Link>
           <Link to="/xidmetlerimiz" className="hover:text-gray-300 transition-colors">Xidmətlərimiz</Link>
           <Link to="/paketler" className="hover:text-gray-300 transition-colors">Paketlər</Link>
+          <Link to="/kataloq" className="hover:text-gray-300 transition-colors">Veb Saytlar</Link>
+          <Link to="/blog" className="hover:text-gray-300 transition-colors">Blog</Link>
           <a href="#contact" className="hover:text-gray-300 transition-colors">Əlaqə</a>
         </nav>
 
         {/* Social Icons (Desktop) & Mobile Toggle */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-5 md:space-x-6">
           <div className="hidden md:flex space-x-4">
             <a href={companyInfo.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition-colors">
               <Instagram size={24} />
@@ -50,6 +55,18 @@ const Header = () => {
             </a>
           </div>
           
+          <button 
+            onClick={() => setIsCartOpen(true)}
+            className="relative flex items-center justify-center text-white hover:text-gray-300 transition-colors"
+          >
+            <ShoppingBag size={24} />
+            {cartItems.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-accent text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                {cartItems.length}
+              </span>
+            )}
+          </button>
+
           <button className="md:hidden text-white hover:text-gray-300 transition-colors" onClick={toggleMobileMenu}>
             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -63,6 +80,8 @@ const Header = () => {
           <Link to="/haqqimizda" onClick={toggleMobileMenu} className="text-xl font-bold hover:text-gray-300 transition-colors">Haqqımızda</Link>
           <Link to="/xidmetlerimiz" onClick={toggleMobileMenu} className="text-xl font-bold hover:text-gray-300 transition-colors">Xidmətlərimiz</Link>
           <Link to="/paketler" onClick={toggleMobileMenu} className="text-xl font-bold hover:text-gray-300 transition-colors">Paketlər</Link>
+          <Link to="/kataloq" onClick={toggleMobileMenu} className="text-xl font-bold hover:text-gray-300 transition-colors">Veb Saytlar</Link>
+          <Link to="/blog" onClick={toggleMobileMenu} className="text-xl font-bold hover:text-gray-300 transition-colors">Blog</Link>
           <a href="#contact" onClick={toggleMobileMenu} className="text-xl font-bold hover:text-gray-300 transition-colors">Əlaqə</a>
           
           <div className="flex space-x-6 pt-6 border-t border-secondary w-1/2 justify-center">

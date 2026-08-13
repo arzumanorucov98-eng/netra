@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
-import { companyInfo } from '../data/content';
+import { X, MessageCircle } from 'lucide-react';
+import { useData } from '../context/DataContext';
 
 const FloatingWhatsApp = () => {
+  const { companyInfo } = useData();
   const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {

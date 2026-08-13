@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { servicesList } from '../data/content';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
 
 const Services = () => {
   return (
@@ -22,20 +23,28 @@ const Services = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {servicesList.map((service, index) => (
             <motion.div
-              key={index}
+              key={service.slug}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
               whileHover={{ y: -5 }}
-              className="bg-white p-6 rounded-2xl shadow-md border border-gray-100 flex items-start space-x-4"
             >
-              <div className="bg-blue-50 p-3 rounded-full text-blue-600 flex-shrink-0">
-                <CheckCircle2 size={24} />
-              </div>
-              <div className="flex-1 pt-1">
-                <h3 className="text-lg font-bold text-primary">{service}</h3>
-              </div>
+              <Link 
+                to={`/xidmetlerimiz/${service.slug}`}
+                className="bg-white p-6 rounded-2xl shadow-md border border-gray-100 flex items-start space-x-4 hover:shadow-xl transition-all block h-full group"
+              >
+                <div className="bg-blue-50 p-3 rounded-full text-blue-600 flex-shrink-0">
+                  <CheckCircle2 size={24} />
+                </div>
+                <div className="flex-1 pt-1">
+                  <h3 className="text-lg font-bold text-primary group-hover:text-blue-600 transition-colors">{service.title}</h3>
+                  <p className="text-sm text-gray-500 mt-1">{service.description}</p>
+                  <span className="text-blue-600 text-sm font-semibold flex items-center gap-1 mt-3 group-hover:gap-2 transition-all">
+                    Ətraflı <ArrowRight size={14} />
+                  </span>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>

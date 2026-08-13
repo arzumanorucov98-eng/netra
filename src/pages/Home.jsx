@@ -1,13 +1,27 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle, BarChart3, TrendingUp, Users, Target } from 'lucide-react';
 import { aboutText, servicesList, partners } from '../data/content';
+import { getPartners } from '../firebase/api';
 import Packages from './Packages';
 
 const Home = () => {
+  const [firebasePartners, setFirebasePartners] = useState([]);
+
+  useEffect(() => {
+    getPartners().then(data => {
+      if (data && data.length > 0) {
+        setFirebasePartners(data);
+      }
+    }).catch(err => console.error("Partnyorlar yüklənərkən xəta:", err));
+  }, []);
+
+  const displayPartners = firebasePartners.length > 0 ? firebasePartners : partners;
   return (
     <div className="flex flex-col">
       <section 
+        aria-label="Əsas Banner"
         className="relative min-h-[50vh] md:min-h-[75vh] flex items-center overflow-hidden py-16 md:py-20 bg-primary bg-cover bg-center bg-no-repeat lg:bg-fixed"
         style={{ 
           backgroundImage: 'url("https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1920&q=80")'
@@ -24,14 +38,17 @@ const Home = () => {
             className="max-w-4xl"
           >
             <h1 className="text-3xl sm:text-4xl md:text-7xl font-bold mb-4 md:mb-6 leading-tight text-white drop-shadow-[0_4px_15px_rgba(0,0,0,0.5)]">
-              Sosial Mediada Marketinq Sistemi Qururuq
+              SMM və Rəqəmsal Marketinq Agentliyi
             </h1>
             <p className="text-base md:text-xl text-gray-100 mb-6 md:mb-10 max-w-2xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] font-medium">
               Biznesiniz üçün işləyən və nəticə gətirən marketinq sistemi qururuq. Sizi rəqəmsal dünyada zirvəyə daşıyırıq.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
               <Link to="/paketler" className="bg-white text-primary px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors inline-flex items-center justify-center shadow-lg hover:shadow-xl w-full sm:w-auto">
-                Paketlərimizə Baxın <ArrowRight className="ml-2" size={20} />
+                Marketinq Paketləri <ArrowRight className="ml-2" size={20} />
+              </Link>
+              <Link to="/kataloq" className="bg-white text-primary px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors inline-flex items-center justify-center shadow-lg hover:shadow-xl w-full sm:w-auto">
+                Veb Saytlar <ArrowRight className="ml-2" size={20} />
               </Link>
               <a href="#contact" className="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-primary transition-colors inline-flex items-center justify-center w-full sm:w-auto">
                 Bizimlə Əlaqə
@@ -42,10 +59,11 @@ const Home = () => {
       </section>
 
       {/* Packages Section */}
-      <Packages />
+      <Packages asSection={true} />
+
 
       {/* Brief About Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white" aria-label="Haqqımızda">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-12 items-center">
             <motion.div 
@@ -93,16 +111,18 @@ const Home = () => {
       </section>
 
       {/* Partners Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white" aria-label="Partnyorlar">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-primary mb-12">Bizimlə Əməkdaşlıq Edən Şirkətlər</h2>
           <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8 max-w-6xl mx-auto">
-            {partners.map((partner, index) => (
+            {displayPartners.map((partner, index) => {
+              const linkUrl = partner.link || partner.instagram;
+              return (
               <motion.a
                 key={index}
-                href={partner.instagram !== "#" ? partner.instagram : undefined}
-                target={partner.instagram !== "#" ? "_blank" : undefined}
-                rel={partner.instagram !== "#" ? "noopener noreferrer" : undefined}
+                href={linkUrl && linkUrl !== "#" ? linkUrl : undefined}
+                target={linkUrl && linkUrl !== "#" ? "_blank" : undefined}
+                rel={linkUrl && linkUrl !== "#" ? "noopener noreferrer" : undefined}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -121,7 +141,8 @@ const Home = () => {
                   />
                 )}
               </motion.a>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

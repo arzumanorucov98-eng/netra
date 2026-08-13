@@ -7,12 +7,12 @@ const PackageCard = ({ pkg, index, onSelect }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      initial={{ opacity: 0, y: 50, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ type: "spring", duration: 0.6, bounce: 0.3, delay: index * 0.1 }}
       className={`relative bg-primary text-white rounded-3xl p-8 flex flex-col h-full border transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${
-        isPremium ? 'border-blue-400 shadow-[0_0_30px_rgba(1,40,159,0.5)] scale-105 md:z-10' : 'border-secondary shadow-lg'
+        isPremium ? 'border-blue-400 shadow-[0_0_30px_rgba(1,40,159,0.5)] md:scale-105 md:z-10' : 'border-secondary shadow-lg'
       }`}
     >
       {isPremium && (
