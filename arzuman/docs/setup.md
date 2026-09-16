@@ -5,7 +5,7 @@ Bu bələdçi Arzumanın **Mərhələ 1** (təməl) qurulumunu izah edir. Sonrak
 ## Əvvəlcədən lazımi hesablar
 
 - [ ] **Anthropic hesabı** — https://console.anthropic.com (API açarı)
-- [ ] **Attio hesabı** — https://attio.com (pulsuz plan başlanğıc üçün kifayətdir)
+- [ ] **Notion hesabı** — https://notion.so (pulsuz plan; Attio biznes domen email tələb etdiyi üçün Notion istifadə edirik)
 - [ ] **Gmail hesabı** — ideal olaraq ayrıca biznes email-i
 - [ ] **Vibe Prospecting hesabı** — bu söhbətdə qoşulub, API açarı lazım olacaq
 - [ ] **Netlify hesabı** — https://netlify.com (Mərhələ 6-ya qədər lazım deyil)
@@ -37,7 +37,8 @@ cp .env.example .env
 Sonra `.env` faylını aç və hər sətrə öz açarlarını yaz:
 
 - **ANTHROPIC_API_KEY** — Console-dan yarat: https://console.anthropic.com/settings/keys
-- **ATTIO_API_KEY** — https://app.attio.com/settings/api
+- **NOTION_API_KEY** — https://www.notion.so/my-integrations (bax: [notion-crm.md](notion-crm.md))
+- **NOTION_CRM_DATABASE_ID** — CRM database-inin URL-indən (bax: [notion-crm.md](notion-crm.md))
 - **VIBE_PROSPECTING_API_KEY** — Vibe Prospecting hesabınızın settings səhifəsindən
 - **GMAIL_\*** — OAuth üçün ilk dəfə əl ilə axın lazım olacaq (bax: [gmail-oauth.md](gmail-oauth.md), Mərhələ 1-in sonunda yazılacaq)
 - **NETLIFY_AUTH_TOKEN** — https://app.netlify.com/user/applications#personal-access-tokens

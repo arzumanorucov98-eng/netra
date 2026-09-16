@@ -9,15 +9,16 @@ export const MCP_TOOLS = {
       'Bakıda tikinti şirkətləri tap',
       'İstanbulda 10-50 nəfərlik restoranların email-lərini çıxar',
     ],
-    writesTo: 'attio',
+    writesTo: 'notion',
     requiresApproval: false,
   },
 
-  attio: {
-    purpose: 'CRM — bütün kontaktlar, statuslar, əməliyyat tarixçəsi burada saxlanılır.',
+  notion: {
+    purpose: 'CRM — bütün kontaktlar, statuslar, əməliyyat tarixçəsi Notion database-ində saxlanılır.',
     typicalUse: [
       'Bu günün göndərilmiş mesajlarını siyahıla',
       "Cavab verməmiş müştərilərin statusunu 'takip_lazımdır'-a dəyiş",
+      'Yeni kontakt yarat (şirkət adı, email, sahə, status)',
     ],
     writesTo: null,
     requiresApproval: false,
@@ -29,7 +30,7 @@ export const MCP_TOOLS = {
       'Draft mesajı X şirkətinin email-inə göndər',
       "Son 24 saatın 'inbox' mesajlarını oxu",
     ],
-    writesTo: 'attio',
+    writesTo: 'notion',
     // Kritik: göndərmə əməliyyatı MÜTLƏQ Telegram təsdiqindən keçməlidir
     requiresApproval: true,
     approvalGate: 'telegram',
@@ -41,7 +42,7 @@ export const MCP_TOOLS = {
       'Bu qovluğu netramarketing-blog domain-inə deploy et',
       'Son deploy statusunu göstər',
     ],
-    writesTo: 'attio',
+    writesTo: 'notion',
     requiresApproval: true,
     approvalGate: 'telegram',
   },

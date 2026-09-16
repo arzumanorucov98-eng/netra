@@ -1,11 +1,11 @@
 {
   "$comment": "MCP server konfiqurasiyaları. Claude Agent SDK bu faylı oxuyub göstərilən serverləri işə salır. Real açarlar .env-də saxlanılır.",
   "mcpServers": {
-    "attio": {
+    "notion": {
       "command": "npx",
-      "args": ["-y", "attio-mcp-server"],
+      "args": ["-y", "@notionhq/notion-mcp-server"],
       "env": {
-        "ATTIO_API_KEY": "${ATTIO_API_KEY}"
+        "OPENAPI_MCP_HEADERS": "{\"Authorization\":\"Bearer ${NOTION_API_KEY}\",\"Notion-Version\":\"2022-06-28\"}"
       }
     },
     "gmail": {

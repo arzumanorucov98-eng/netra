@@ -34,7 +34,7 @@ export async function runAgent(userInput, { streamOutput = true } = {}) {
       // MCP alətlərinin hamısına icazə (təsdiq gate-ləri hook-larda tətbiq olunacaq)
       allowedTools: [
         'mcp__vibe-prospecting',
-        'mcp__attio',
+        'mcp__notion',
         'mcp__gmail',
         'mcp__netlify',
       ],

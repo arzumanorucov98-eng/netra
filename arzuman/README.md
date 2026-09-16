@@ -14,7 +14,7 @@ Arzuman, **Claude Agent SDK** üzərində qurulmuş bir orkestrasiya sistemidir.
 [Əsas kompüter] ─── səs I/O + agent beyni ─── [Telegram bot (telefon)]
         │
         ├─ MCP: Vibe Prospecting (müştəri tapma)
-        ├─ MCP: Attio (CRM)
+        ├─ MCP: Notion (CRM database)
         ├─ MCP: Gmail (email)
         └─ MCP: Netlify (sayt deploy)
         │
