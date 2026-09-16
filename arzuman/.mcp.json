@@ -1,0 +1,35 @@
+{
+  "$comment": "MCP server konfiqurasiyaları. Claude Agent SDK bu faylı oxuyub göstərilən serverləri işə salır. Real açarlar .env-də saxlanılır.",
+  "mcpServers": {
+    "attio": {
+      "command": "npx",
+      "args": ["-y", "attio-mcp-server"],
+      "env": {
+        "ATTIO_API_KEY": "${ATTIO_API_KEY}"
+      }
+    },
+    "gmail": {
+      "command": "npx",
+      "args": ["-y", "@gongrzhe/server-gmail-autoauth-mcp"],
+      "env": {
+        "GMAIL_CLIENT_ID": "${GMAIL_CLIENT_ID}",
+        "GMAIL_CLIENT_SECRET": "${GMAIL_CLIENT_SECRET}",
+        "GMAIL_REFRESH_TOKEN": "${GMAIL_REFRESH_TOKEN}"
+      }
+    },
+    "vibe-prospecting": {
+      "command": "npx",
+      "args": ["-y", "vibe-prospecting-mcp"],
+      "env": {
+        "VIBE_PROSPECTING_API_KEY": "${VIBE_PROSPECTING_API_KEY}"
+      }
+    },
+    "netlify": {
+      "command": "npx",
+      "args": ["-y", "@netlify/mcp"],
+      "env": {
+        "NETLIFY_AUTH_TOKEN": "${NETLIFY_AUTH_TOKEN}"
+      }
+    }
+  }
+}
