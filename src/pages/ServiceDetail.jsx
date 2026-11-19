@@ -3,7 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
-import { servicesList } from '../data/content';
+import { servicesList as defaultServicesList } from '../data/content';
+import { getServices } from '../firebase/api';
 
 /**
  * Markdown məzmunundakı linkləri React Router <Link> komponentinə çevirən parser
@@ -73,6 +74,21 @@ const renderMarkdownContent = (content) => {
 
 const ServiceDetail = () => {
   const { slug } = useParams();
+  const [servicesList, setServicesList] = useState(defaultServicesList);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getServices().then(data => {
+      if (data && data.length > 0) {
+        setServicesList(data);
+      }
+      setLoading(false);
+    }).catch(err => {
+      console.error("Xidmətlər yüklənərkən xəta:", err);
+      setLoading(false);
+    });
+  }, []);
+
   const service = servicesList.find(s => s.slug === slug);
 
   // Əlaqədar xidmətlər (cari xidmət xaric ilk 3)
@@ -81,6 +97,14 @@ const ServiceDetail = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="py-20 bg-light min-h-screen flex items-center justify-center">
+        <div className="text-xl font-bold text-primary">Yüklənir...</div>
+      </div>
+    );
+  }
 
   // Xidmət tapılmadı
   if (!service) {
@@ -102,13 +126,69 @@ const ServiceDetail = () => {
       <Helmet>
         <title>{service.metaTitle}</title>
         <meta name="description" content={service.metaDescription} />
+        {service.keywords && <meta name="keywords" content={service.keywords} />}
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Netra Marketing" />
+
+        {/* Canonical */}
+        <link rel="canonical" href={`https://netramarketing.az/xidmetlerimiz/${service.slug}`} />
+
+        {/* Open Graph */}
         <meta property="og:title" content={service.metaTitle} />
         <meta property="og:description" content={service.metaDescription} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://netramarketing.az/xidmetlerimiz/${service.slug}`} />
+        <meta property="og:image" content="https://netramarketing.az/logo.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={`${service.title} — Netra Marketing`} />
         <meta property="og:locale" content="az_AZ" />
         <meta property="og:site_name" content="Netra Marketing" />
-        <link rel="canonical" href={`https://netramarketing.az/xidmetlerimiz/${service.slug}`} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={service.metaTitle} />
+        <meta name="twitter:description" content={service.metaDescription} />
+        <meta name="twitter:image" content="https://netramarketing.az/logo.jpg" />
+
+        {/* JSON-LD: Service Schema */}
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: service.title,
+          description: service.metaDescription,
+          url: `https://netramarketing.az/xidmetlerimiz/${service.slug}`,
+          provider: {
+            '@type': 'Organization',
+            name: 'Netra Marketing',
+            url: 'https://netramarketing.az',
+            telephone: '+994519784946',
+          },
+          areaServed: {
+            '@type': 'Country',
+            name: 'Azerbaijan',
+          },
+          serviceType: service.title,
+          ...(service.price && service.price !== 'Qiymət üçün Paketlər səhifəsinə baxın' && service.price !== 'Qiymət üçün saytlarla tanış olun' ? {
+            offers: {
+              '@type': 'Offer',
+              price: service.price,
+              priceCurrency: 'AZN',
+              availability: 'https://schema.org/InStock',
+            }
+          } : {}),
+        })}</script>
+
+        {/* JSON-LD: BreadcrumbList */}
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Ana Səhifə', item: 'https://netramarketing.az' },
+            { '@type': 'ListItem', position: 2, name: 'Xidmətlərimiz', item: 'https://netramarketing.az/xidmetlerimiz' },
+            { '@type': 'ListItem', position: 3, name: service.title, item: `https://netramarketing.az/xidmetlerimiz/${service.slug}` },
+          ],
+        })}</script>
       </Helmet>
 
       <motion.div 
@@ -139,9 +219,22 @@ const ServiceDetail = () => {
           </h1>
           <p className="text-xl text-gray-600 mb-8">{service.description}</p>
 
-          <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed bg-white p-8 rounded-2xl shadow-md border border-gray-100">
+          <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed bg-white p-8 rounded-2xl shadow-md border border-gray-100 mb-8">
             {renderMarkdownContent(service.content)}
           </div>
+
+          {service.price && (
+            <div className="bg-blue-50 border border-blue-100 rounded-xl p-6 flex flex-col sm:flex-row sm:items-center gap-3">
+              <span className="font-bold text-primary text-xl">Xidmətin Qiyməti:</span>
+              {service.priceLink ? (
+                <Link to={service.priceLink} className="text-blue-700 font-bold text-xl hover:underline">
+                  {service.price}
+                </Link>
+              ) : (
+                <span className="text-blue-700 font-bold text-xl">{service.price}</span>
+              )}
+            </div>
+          )}
 
           {/* CTA */}
           <div className="mt-12 bg-primary text-white p-8 rounded-2xl text-center">

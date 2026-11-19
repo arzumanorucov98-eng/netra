@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Globe, Settings, LogOut, Plus, Trash2, Edit, X, ShoppingCart, Search, Package, Users, FileText } from 'lucide-react';
+import { LayoutDashboard, Globe, Settings, LogOut, Plus, Trash2, Edit, X, ShoppingCart, Search, Package, Users, FileText, Briefcase } from 'lucide-react';
 import { 
   getWebsites, addWebsite, updateWebsite, deleteWebsite,
   getPackages, addPackage, updatePackage, deletePackage,
@@ -8,8 +8,11 @@ import {
   getOrders, updateOrderStatus,
   getCompanyInfo, updateCompanyInfo,
   getSeo, updateSeo, logoutAdmin,
-  getBlogPosts, addBlogPost, updateBlogPost, deleteBlogPost
+  getBlogPosts, addBlogPost, updateBlogPost, deleteBlogPost,
+  getServices, addService, updateService, deleteService
 } from '../firebase/api';
+import { servicesList } from '../data/content';
+import { defaultBlogPosts } from '../data/blogData';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('kataloq');
@@ -20,6 +23,14 @@ const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
   const [seo, setSeo] = useState({ title: '', description: '', analytics: '', pixel: '' });
   const [blogPosts, setBlogPosts] = useState([]);
+  const [services, setServices] = useState([]);
+
+  // Service Modal states
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
+  const [serviceModalMode, setServiceModalMode] = useState('add');
+  const [currentService, setCurrentService] = useState({
+    title: '', slug: '', description: '', content: '', price: '', priceLink: '', metaTitle: '', metaDescription: '', order: 0
+  });
 
   // Blog Modal states
   const [isBlogModalOpen, setIsBlogModalOpen] = useState(false);
@@ -62,14 +73,15 @@ const AdminDashboard = () => {
 
   const fetchData = async () => {
     try {
-      const [webData, pkgData, partnerData, infoData, ordData, seoData, blogData] = await Promise.all([
+      const [webData, pkgData, partnerData, infoData, ordData, seoData, blogData, srvData] = await Promise.all([
         getWebsites(),
         getPackages(),
         getPartners(),
         getCompanyInfo(),
         getOrders(),
         getSeo(),
-        getBlogPosts()
+        getBlogPosts(),
+        getServices()
       ]);
 
       // Sort websites by order then by name
@@ -85,6 +97,7 @@ const AdminDashboard = () => {
       setOrders(ordData || []);
       if(seoData) setSeo(seoData);
       setBlogPosts(blogData || []);
+      setServices((srvData || []).sort((a, b) => (a.order || 0) - (b.order || 0)));
     } catch (err) {
       console.error("Failed to fetch data", err);
     }
@@ -270,54 +283,63 @@ const AdminDashboard = () => {
     fetchData();
   };
 
+  // --- SERVICES HANDLERS ---
+  const handleDeleteService = async (id) => {
+    if(window.confirm('Bu xidməti silmək istədiyinizə əminsiniz?')) {
+      await deleteService(id);
+      fetchData();
+    }
+  };
+
+  const openAddServiceModal = () => {
+    setServiceModalMode('add');
+    setCurrentService({
+      title: '', slug: '', description: '', content: '', price: '', priceLink: '', metaTitle: '', metaDescription: '', order: 0
+    });
+    setIsServiceModalOpen(true);
+  };
+
+  const openEditServiceModal = (srv) => {
+    setServiceModalMode('edit');
+    setCurrentService({ ...srv, order: srv.order || 0 });
+    setIsServiceModalOpen(true);
+  };
+
+  const handleServiceSubmit = async (e) => {
+    e.preventDefault();
+    const slug = currentService.slug || generateSlug(currentService.title);
+    const metaTitle = currentService.metaTitle || `${currentService.title} | Netra Marketing`;
+    const metaDescription = currentService.metaDescription || currentService.description;
+
+    const srvData = { ...currentService, slug, metaTitle, metaDescription };
+
+    if(serviceModalMode === 'add') {
+      await addService(srvData);
+    } else {
+      await updateService(currentService.id, srvData);
+    }
+    setIsServiceModalOpen(false);
+    fetchData();
+  };
+
+  const handleMigrateDefaultServices = async () => {
+    if(!window.confirm('Default xidmətləri əlavə etmək istəyirsiniz?')) return;
+    try {
+      for (const srv of servicesList) {
+        await addService({ ...srv, order: 0 });
+      }
+      alert('Xidmətlər uğurla əlavə edildi!');
+      fetchData();
+    } catch(err) {
+      alert('Xəta baş verdi: ' + err.message);
+    }
+  };
+
   const handleMigrateDefaultBlogs = async () => {
     if(!window.confirm('Default blog məqalələrini əlavə etmək istəyirsiniz?')) return;
-    
-    const defaultPosts = [
-      {
-        title: 'SMM nədir və nə üçün vacibdir?',
-        summary: 'Sosial Media Marketinq (SMM) — biznesinizin sosial media platformalarında peşəkar şəkildə idarə olunması, kontent hazırlanması və reklam kampaniyalarının aparılmasıdır. Bu məqalədə SMM-in əsaslarını və niyə hər biznesin buna ehtiyacı olduğunu izah edirik.',
-        content: `Sosial Media Marketinq (SMM) — müasir biznes dünyasının ən vacib vasitələrindən biridir. İnternetin və sosial media platformalarının sürətlə inkişafı ilə, bizneslər üçün onlayn mövcudluq artıq lüks deyil, zərurətdir.\n\n## SMM nədir?\n\nSMM, yəni Social Media Marketing, biznesinizin sosial media platformalarında (Instagram, Facebook, TikTok, LinkedIn və s.) peşəkar şəkildə idarə olunması, kontent hazırlanması və reklam kampaniyalarının aparılması deməkdir.\n\n## SMM niyə vacibdir?\n\n1. **Müştəri bazanızı artırır**: Sosial media milyardlarla istifadəçiyə çatmağa imkan verir\n2. **Brend tanınırlığı yaradır**: Düzgün strategiya ilə brendiniz daha çox insana çatır\n3. **Müştəri münasibətlərini gücləndirir**: Birbaşa əlaqə imkanı yaradır\n4. **Rəqiblərdən öndə olmağa kömək edir**: Aktiv sosial media mövcudluğu rəqabət üstünlüyü verir\n5. **Satışları artırır**: Hədəfli reklamlar vasitəsilə potensial müştərilərə çatmaq mümkündür\n\n## Peşəkar SMM xidmətinin üstünlükləri\n\nPeşəkar SMM agentliyi ilə işləmək, vaxtınıza qənaət etməklə yanaşı, nəticəyönümlü strategiya ilə biznesinizi böyüdür. Netra Marketing olaraq 5 illik təcrübəmizlə yüzlərlə biznesi sosial mediada uğura aparmışıq.`,
-        category: 'SMM',
-        tags: ['SMM', 'Sosial Media', 'Marketinq'],
-        date: '2026-07-20',
-        readTime: '5 dəq',
-        image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80'
-      },
-      {
-        title: 'Instagram reklamı necə verilir? — Tam Bələdçi',
-        summary: 'Instagram reklamı vermək istəyirsiniz, amma haradan başlayacağınızı bilmirsiniz? Bu tam bələdçidə Instagram reklamlarının növlərini, hədəfləmə qaydalarını və büdcə planlamasını öyrənəcəksiniz.',
-        content: `Instagram dünyada ən çox istifadə olunan sosial media platformalarından biridir və reklam vermək üçün əla bir vasitədir.\n\n## Instagram Reklam Növləri\n\n1. **Feed Reklamları**: İstifadəçilərin ana lentlərində görünən şəkil və ya video reklamlar\n2. **Story Reklamları**: Story bölməsində tam ekran göstərilən reklamlar\n3. **Reels Reklamları**: Reels bölməsində göstərilən qısa video reklamlar\n4. **Carousel Reklamları**: Bir neçə şəkil və ya videonu bir reklamda birləşdirən format\n\n## Hədəfləmə\n\nInstagram reklamlarının ən güclü tərəfi hədəfləmə imkanlarıdır:\n- **Yaş və cins**: Spesifik yaş qrupu və cinsə hədəfləmə\n- **Coğrafiya**: Müəyyən şəhər və ya ölkəyə hədəfləmə\n- **Maraqlar**: İstifadəçilərin maraqlarına görə hədəfləmə\n- **Davranışlar**: Online alış-veriş edənlər, mobil istifadəçilər və s.\n\n## Büdcə Planlaması\n\nInstagram reklamları minimum gündəlik $1 büdcə ilə başlaya bilər. Tövsiyə olunan başlanğıc büdcəsi aylıq 100-300 AZN-dir.\n\nPeşəkar reklam kampaniyası üçün Netra Marketing ilə əlaqə saxlayın — hədəf auditoriyanıza ən effektiv şəkildə çatmağınıza kömək edək.`,
-        category: 'Reklam',
-        tags: ['Instagram', 'Reklam', 'Target'],
-        date: '2026-07-15',
-        readTime: '7 dəq',
-        image: 'https://images.unsplash.com/photo-1611262588024-d12430b98920?auto=format&fit=crop&w=800&q=80'
-      },
-      {
-        title: 'Azərbaycanda rəqəmsal marketinq: Trendlər və tövsiyələr',
-        summary: 'Azərbaycanda rəqəmsal marketinqin son trendləri, ən effektiv strategiyalar və bizneslər üçün praktiki tövsiyələr. 2026-da nələrə diqqət etməlisiniz?',
-        content: `Azərbaycanda rəqəmsal marketinq sektoru sürətlə inkişaf edir. Hər il daha çox biznes onlayn marketinqə keçid edir və rəqəmsal kanallardan istifadə edir.\n\n## 2026 Trendləri\n\n### 1. AI-Dəstəkli Kontent\nSüni intellekt texnologiyaları kontent yaradılmasında inqilab edir. AI ilə hazırlanan videolar, şəkillər və mətnlər bizneslərin kontent strategiyasını dəyişdirir.\n\n### 2. Qısa Video Kontenti\nTikTok və Instagram Reels formatında qısa videolar ən çox izlənilən kontent növünə çevrilib. Bizneslər bu formata uyğunlaşmalıdır.\n\n### 3. Şəxsiləşdirilmiş Marketinq\nHər müştəriyə fərdi yanaşma — personalizasiya 2026-da marketinqin əsas trendi olacaq.\n\n### 4. İnflyuenser Əməkdaşlığı\nMikro-influenserlər ilə əməkdaşlıq kiçik və orta bizneslər üçün effektiv strategiya olaraq qalır.\n\n## Bizneslər üçün Tövsiyələr\n\n- Sosial media hesablarınızı peşəkar şəkildə idarə edin\n- Hədəfli reklam kampaniyalarına investisiya qoyun\n- Video kontentə üstünlük verin\n- AI alətlərindən faydalanın\n- Müştəri rəylərini aktiv şəkildə toplayın\n\nNetra Marketing olaraq bu trendləri yaxından izləyir və müştərilərimizə ən müasir strategiyaları tətbiq edirik.`,
-        category: 'Strategiya',
-        tags: ['Rəqəmsal Marketinq', 'Trendlər', 'Azərbaycan'],
-        date: '2026-07-10',
-        readTime: '6 dəq',
-        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80'
-      },
-      {
-        title: 'Veb sayt niyə vacibdir? — Hər biznesin bilməli olduğu 7 səbəb',
-        summary: 'Sosial media var amma veb sayt yoxdur? Bu məqalədə veb saytın biznesiniz üçün niyə vacib olduğunu və necə rəqəmsal uğura apardığını izah edirik.',
-        content: `Bir çox sahibkar düşünür ki, "Instagram səhifəm var, veb sayta ehtiyacım yoxdur." Lakin bu, böyük bir yanılmadır.\n\n## Veb sayt niyə vacibdir?\n\n### 1. Peşəkarlıq Göstəricisi\nVeb sayt biznesinizin peşəkar olduğunu göstərir. Müştərilər veb saytı olan bizneslərə daha çox güvənir.\n\n### 2. 7/24 Açıq Mağaza\nVeb saytınız gündüz-gecə işləyir. Müştərilər istənilən vaxt məhsullarınızı görə və sifariş verə bilər.\n\n### 3. Google-da Görünürlük\nVeb sayt olmadan Google axtarışında görünmək demək olar ki mümkün deyil. SEO ilə veb saytınız axtarış nəticələrində ön sıralara çıxa bilər.\n\n### 4. Müştəri Bazası Yaratmaq\nVeb sayt vasitəsilə e-mail toplamaq, forma doldurmaq və müştəri bazası yaratmaq mümkündür.\n\n### 5. Rəqiblərdən Fərqlənmək\nƏgər rəqiblərinizin veb saytı yoxdursa, siz artıq öndəsiniz. Əgər varsa, sizin də olmalıdır.\n\n### 6. Reklam Effektivliyini Artırmaq\nInstagram və Facebook reklamları bir veb sayta yönləndirildikdə daha çox nəticə verir.\n\n### 7. Brend Nağılınızı Danışmaq\nVeb sayt brendiniz haqqında tam məlumat verməyə imkan yaradır — kim olduğunuz, nə etdiyiniz, niyə fərqli olduğunuz.\n\nNetra Marketing professional veb sayt hazırlanması xidməti təklif edir. Müasir, responsive və SEO-optimizə edilmiş veb saytınızı bizimlə qurun!`,
-        category: 'Veb Sayt',
-        tags: ['Veb Sayt', 'SEO', 'Biznes'],
-        date: '2026-07-05',
-        readTime: '5 dəq',
-        image: 'https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=800&q=80'
-      }
-    ];
 
     try {
-      for (const post of defaultPosts) {
+      for (const post of defaultBlogPosts) {
         await addBlogPost(post);
       }
       alert('Default məqalələr uğurla əlavə edildi!');
@@ -369,6 +391,9 @@ const AdminDashboard = () => {
           <button onClick={() => setActiveTab('packages')} className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${activeTab === 'packages' ? 'bg-white/20' : 'hover:bg-white/10'}`}>
             <Package size={20} /><span>Paketlər</span>
           </button>
+          <button onClick={() => setActiveTab('services')} className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${activeTab === 'services' ? 'bg-white/20' : 'hover:bg-white/10'}`}>
+            <Briefcase size={20} /><span>Xidmətlər</span>
+          </button>
           <button onClick={() => setActiveTab('orders')} className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${activeTab === 'orders' ? 'bg-white/20' : 'hover:bg-white/10'}`}>
             <ShoppingCart size={20} /><span>Sifarişlər</span>
           </button>
@@ -393,7 +418,8 @@ const AdminDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto p-8 relative">
+      <div className="flex-1 overflow-y-auto bg-gray-50 p-8">
+        
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 min-h-[80vh] p-8">
           
           {activeTab === 'kataloq' && (
@@ -475,6 +501,59 @@ const AdminDashboard = () => {
                     ))}
                     {packages.length === 0 && (
                       <tr><td colSpan="5" className="p-8 text-center text-gray-500">Heç bir paket tapılmadı.</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'services' && (
+            <div>
+              <div className="flex justify-between items-center mb-8">
+                <div className="flex items-center gap-4">
+                  <h3 className="text-2xl font-bold text-gray-800">Xidmətlər İdarəetməsi</h3>
+                  {services.length === 0 && (
+                    <button onClick={handleMigrateDefaultServices} className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded text-sm font-medium hover:bg-yellow-200 transition-colors">
+                      Hazır Xidmətləri Yüklə
+                    </button>
+                  )}
+                </div>
+                <button onClick={openAddServiceModal} className="bg-primary text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-secondary transition-colors">
+                  <Plus size={20} /> Yeni Xidmət
+                </button>
+              </div>
+              
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-gray-50 border-b border-gray-200">
+                      <th className="p-4 font-semibold text-gray-600">Sıra</th>
+                      <th className="p-4 font-semibold text-gray-600">Xidmət Adı</th>
+                      <th className="p-4 font-semibold text-gray-600">SEO URL (Slug)</th>
+                      <th className="p-4 font-semibold text-gray-600">Qiymət</th>
+                      <th className="p-4 font-semibold text-gray-600 text-right">Əməliyyatlar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {services.map(srv => (
+                      <tr key={srv.id} className="border-b border-gray-100 hover:bg-gray-50">
+                        <td className="p-4 font-bold text-gray-500">{srv.order || 0}</td>
+                        <td className="p-4">
+                          <div className="font-medium text-gray-800">{srv.title}</div>
+                        </td>
+                        <td className="p-4">
+                          <div className="text-xs text-green-700 bg-green-50 px-2 py-1 rounded font-mono">/xidmetlerimiz/{srv.slug || '—'}</div>
+                        </td>
+                        <td className="p-4 font-bold text-primary">{srv.price || '—'}</td>
+                        <td className="p-4 text-right">
+                          <button onClick={() => openEditServiceModal(srv)} className="text-blue-500 hover:text-blue-700 p-2"><Edit size={18} /></button>
+                          <button onClick={() => handleDeleteService(srv.id)} className="text-red-500 hover:text-red-700 p-2"><Trash2 size={18} /></button>
+                        </td>
+                      </tr>
+                    ))}
+                    {services.length === 0 && (
+                      <tr><td colSpan="5" className="p-8 text-center text-gray-500">Heç bir xidmət tapılmadı.</td></tr>
                     )}
                   </tbody>
                 </table>
@@ -641,11 +720,9 @@ const AdminDashboard = () => {
               <div className="flex justify-between items-center mb-8">
                 <div className="flex items-center gap-4">
                   <h3 className="text-2xl font-bold text-gray-800">Blog Məqalələri</h3>
-                  {blogPosts.length === 0 && (
-                    <button onClick={handleMigrateDefaultBlogs} className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded text-sm font-medium hover:bg-yellow-200 transition-colors">
-                      Hazır Məqalələri Yüklə
-                    </button>
-                  )}
+                  <button onClick={handleMigrateDefaultBlogs} className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded text-sm font-medium hover:bg-yellow-200 transition-colors">
+                    Hazır Məqalələri Yüklə
+                  </button>
                 </div>
                 <button onClick={openAddBlogModal} className="bg-primary text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-secondary transition-colors">
                   <Plus size={20} /> Yeni Məqalə Əlavə Et
@@ -925,6 +1002,77 @@ const AdminDashboard = () => {
           </div>
         </div>
       )}
+      {/* Service Add/Edit Modal */}
+      {isServiceModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+            <div className="flex justify-between items-center p-6 border-b border-gray-100">
+              <h3 className="text-xl font-bold text-gray-800">{serviceModalMode === 'add' ? 'Yeni Xidmət Əlavə Et' : 'Xidməti Redaktə Et'}</h3>
+              <button onClick={() => setIsServiceModalOpen(false)} className="text-gray-400 hover:text-gray-600"><X size={24} /></button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-6">
+              <form id="serviceForm" onSubmit={handleServiceSubmit} className="space-y-6">
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Xidmət Adı (Başlıq)</label>
+                    <input type="text" required value={currentService.title} onChange={e => setCurrentService({...currentService, title: e.target.value})} className="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">URL Slug (Boş buraxıldıqda avtomatik yaranır)</label>
+                    <input type="text" value={currentService.slug} onChange={e => setCurrentService({...currentService, slug: e.target.value})} className="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" placeholder="smm-xidmetleri" />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Sıra Nömrəsi</label>
+                    <input type="number" required value={currentService.order} onChange={e => setCurrentService({...currentService, order: Number(e.target.value)})} className="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" />
+                  </div>
+
+                  <div className="col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Qısa Təsvir (Kartda görünəcək)</label>
+                    <textarea rows="2" required value={currentService.description} onChange={e => setCurrentService({...currentService, description: e.target.value})} className="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"></textarea>
+                  </div>
+
+                  <div className="col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Ətraflı Məzmun (Markdown forması dəstəklənir)</label>
+                    <textarea rows="10" required value={currentService.content} onChange={e => setCurrentService({...currentService, content: e.target.value})} className="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary font-mono text-sm"></textarea>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Qiymət Mətni (məs: Aylıq 200 azn)</label>
+                    <input type="text" value={currentService.price} onChange={e => setCurrentService({...currentService, price: e.target.value})} className="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Qiymət Linki (Kataloq və ya Paketlər URL-i)</label>
+                    <input type="text" value={currentService.priceLink} onChange={e => setCurrentService({...currentService, priceLink: e.target.value})} className="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" placeholder="/paketler" />
+                  </div>
+                  
+                  {/* SEO Fields */}
+                  <div className="col-span-2 bg-gray-50 p-4 rounded-lg mt-4 border border-gray-200">
+                    <h4 className="font-bold text-gray-700 mb-4">SEO Tənzimləmələri</h4>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Meta Title</label>
+                        <input type="text" value={currentService.metaTitle} onChange={e => setCurrentService({...currentService, metaTitle: e.target.value})} className="w-full p-2 border border-gray-300 rounded-lg" placeholder="Boş buraxıldıqda başlıq istifadə olunur" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Meta Description</label>
+                        <textarea rows="2" value={currentService.metaDescription} onChange={e => setCurrentService({...currentService, metaDescription: e.target.value})} className="w-full p-2 border border-gray-300 rounded-lg" placeholder="Boş buraxıldıqda təsvir istifadə olunur"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div className="p-6 border-t border-gray-100 flex justify-end gap-3 bg-gray-50 rounded-b-2xl">
+              <button type="button" onClick={() => setIsServiceModalOpen(false)} className="px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-lg transition-colors font-medium">Ləğv Et</button>
+              <button type="submit" form="serviceForm" className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition-colors font-medium">{serviceModalMode === 'add' ? 'Əlavə Et' : 'Yadda Saxla'}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

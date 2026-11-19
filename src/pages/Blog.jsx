@@ -8,7 +8,7 @@ import { defaultBlogPosts, blogCategories } from '../data/blogData';
 
 const Blog = () => {
   const { category } = useParams();
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(defaultBlogPosts);
   const [searchQuery, setSearchQuery] = useState('');
 
   // URL-dəki kateqoriyaya əsasən seçilmiş kateqoriyanı müəyyənləşdir
@@ -47,13 +47,38 @@ const Blog = () => {
   });
 
   // SEO meta tag-ları kateqoriyaya görə dəyişir
-  const pageTitle = selectedCategory === 'Hamısı'
-    ? 'Blog — Rəqəmsal Marketinq Məqalələri | Netra Marketing'
-    : `${selectedCategory} Məqalələri — Blog | Netra Marketing`;
-  
-  const pageDescription = selectedCategory === 'Hamısı'
-    ? 'Rəqəmsal marketinq, SMM, sosial media strategiyaları, reklam tövsiyələri və texnoloji yeniliklər haqqında peşəkar məqalələr.'
-    : `${selectedCategory} haqqında peşəkar məqalələr. Netra Marketing blog.`;
+  const categoryMeta = {
+    'Hamisi': {
+      title: 'Blog | SMM, Reklam və Rəqəmsal Marketinq Məqalələri | Netra',
+      description: 'SMM, Instagram reklamları, Google Ads, SEO və rəqəmsal marketinq haqqında peşəkar məqalələr. Azərbaycan biznesləri üçün praktiki marketinq tövsiyələri.',
+      keywords: 'marketinq blog Azərbaycan, SMM məqalələr, rəqəmsal marketinq blogu, Instagram reklam bələdçi, SEO öyrən, sosial media tövsiyələri',
+    },
+    'SMM': {
+      title: 'SMM Haqqında Məqalələr | Sosial Media Marketinq Blogu | Netra',
+      description: 'SMM strategiyası, sosial media idarəçiliyi, kontent planlasırması və SMM xidmətləri haqqında peşəkar məqalələr. Biznesinizi sosial mediada böyüdün.',
+      keywords: 'SMM məqalələri, sosial media marketinq, SMM strategiyası, kontent planlasırma, Instagram idarəçiliyi, SMM ne bələdçi',
+    },
+    'Reklam': {
+      title: 'Reklam Məqalələri | Instagram və Google Ads Bələdçiləri | Netra',
+      description: 'Instagram sponsorlu reklam, Meta Ads, Google Ads, TikTok reklamı və performans marketinq haqqında ətraflı bələdçilər. Hədəfli reklam ilə satış artırın.',
+      keywords: 'Instagram reklam bələdçi, Meta Ads tövsiyələri, Google Ads Azərbaycan, target reklam məqalə, performans marketinq',
+    },
+    'Strategiya': {
+      title: 'Marketinq Strategiyası Məqalələri | Rəqəmsal Strategiya | Netra',
+      description: 'Rəqəmsal marketinq strategiyası, brendinq, satış artırma tünləri və AI marketinq haqqında peşəkar məqalələr. Azərbaycanda bizneslər üçün.',
+      keywords: 'marketinq strategiyası Azərbaycan, brendinq məqalə, satış artırmaq yolları, AI marketinq, rəqəmsal strategiya',
+    },
+    'Veb Sayt': {
+      title: 'Veb Sayt Haqqında Məqalələr | SEO və Sayt Məsləhətləri | Netra',
+      description: 'Veb sayt hazırlanması, SEO optimizasiyası, sayt növləri və veb saytın vacibləyi haqqında ətraflı məqalələr. Biznesiniz üçün doğru saytı seçin.',
+      keywords: 'veb sayt hazırlanması məqalə, SEO Azərbaycan, sayt növ seçimi, landing page, e-ticarət saytı məsləhət',
+    },
+  };
+
+  const currentMeta = categoryMeta[selectedCategory] || categoryMeta['Hamisi'];
+  const pageTitle = currentMeta.title;
+  const pageDescription = currentMeta.description;
+  const pageKeywords = currentMeta.keywords;
 
   const canonicalUrl = category
     ? `https://netramarketing.az/blog/category/${category}`
@@ -64,13 +89,55 @@ const Blog = () => {
       <Helmet>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
+        <meta name="keywords" content={pageKeywords} />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Netra Marketing" />
+
+        {/* Canonical */}
+        <link rel="canonical" href={canonicalUrl} />
+
+        {/* Open Graph */}
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDescription} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content="https://netramarketing.az/logo.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Netra Marketing Blog" />
         <meta property="og:locale" content="az_AZ" />
         <meta property="og:site_name" content="Netra Marketing" />
-        <link rel="canonical" href={canonicalUrl} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:image" content="https://netramarketing.az/logo.jpg" />
+
+        {/* JSON-LD: CollectionPage + BreadcrumbList */}
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: pageTitle,
+          description: pageDescription,
+          url: canonicalUrl,
+          inLanguage: 'az',
+          publisher: {
+            '@type': 'Organization',
+            name: 'Netra Marketing',
+            url: 'https://netramarketing.az',
+          },
+        })}</script>
+
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Ana Səhifə', item: 'https://netramarketing.az' },
+            { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://netramarketing.az/blog' },
+            ...(category ? [{ '@type': 'ListItem', position: 3, name: selectedCategory, item: canonicalUrl }] : []),
+          ],
+        })}</script>
       </Helmet>
 
       <div className="py-20 bg-light min-h-screen">
@@ -133,8 +200,6 @@ const Blog = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all group"
-                itemScope
-                itemType="https://schema.org/BlogPosting"
               >
                 <Link to={`/blog/${post.slug}`} className="block">
                   {post.image && (
@@ -143,29 +208,28 @@ const Blog = () => {
                         src={post.image} 
                         alt={post.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        itemProp="image"
                         loading="lazy"
                       />
                     </div>
                   )}
                   <div className="p-6">
                     <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
-                      <span className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-medium" itemProp="articleSection">
+                      <span className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-medium">
                         {post.category}
                       </span>
                       <span className="flex items-center gap-1">
                         <Calendar size={12} />
-                        <time itemProp="datePublished" dateTime={post.date}>{post.date}</time>
+                        <time dateTime={post.date}>{post.date}</time>
                       </span>
                       <span className="flex items-center gap-1">
                         <Clock size={12} />
                         {post.readTime}
                       </span>
                     </div>
-                    <h2 className="text-lg font-bold text-primary mb-2 group-hover:text-blue-600 transition-colors" itemProp="headline">
+                    <h2 className="text-lg font-bold text-primary mb-2 group-hover:text-blue-600 transition-colors">
                       {post.title}
                     </h2>
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-3" itemProp="description">
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">
                       {post.summary}
                     </p>
                     <span className="text-blue-600 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">

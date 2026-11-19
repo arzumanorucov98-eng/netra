@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Instagram, Menu, X, ShoppingBag } from 'lucide-react'; 
 import { useData } from '../context/DataContext';
 import { useCart } from '../context/CartContext';
@@ -8,13 +8,15 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { cartItems, setIsCartOpen } = useCart();
   const { companyInfo } = useData();
+  const location = useLocation();
+  const isHome = location.pathname === '/';
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-primary text-white shadow-lg border-b border-secondary">
+    <header className={`${isHome ? 'absolute w-full top-0 bg-transparent' : 'sticky top-0 bg-primary shadow-lg border-b border-secondary'} z-50 text-white transition-all duration-300`}>
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo */}
         <Link to="/" className="flex flex-col items-center justify-center mr-8 hover:opacity-90 transition-opacity">

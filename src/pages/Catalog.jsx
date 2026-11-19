@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { categories } from '../data/catalogData';
+import { categories, websitesData as staticWebsitesData } from '../data/catalogData';
 import WebsiteCard from '../components/WebsiteCard';
 import { getWebsites } from '../firebase/api';
 
 const Catalog = () => {
   const [selectedCategory, setSelectedCategory] = useState("Bütün");
-  const [websitesData, setWebsitesData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [websitesData, setWebsitesData] = useState(staticWebsitesData);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getWebsites()

@@ -148,3 +148,31 @@ export const deleteBlogPost = async (id) => {
   await deleteDoc(doc(db, 'blogPosts', id.toString()));
 };
 
+// --- SERVICES ---
+export const getServices = async () => {
+  try {
+    const snapshot = await getDocs(collection(db, 'services'));
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.error("Xidmətləri yükləyərkən xəta:", error);
+    return [];
+  }
+};
+
+export const addService = async (serviceData) => {
+  const newId = Date.now().toString();
+  await setDoc(doc(db, 'services', newId), { 
+    ...serviceData, 
+    id: newId
+  });
+  return newId;
+};
+
+export const updateService = async (id, data) => {
+  await updateDoc(doc(db, 'services', id.toString()), data);
+};
+
+export const deleteService = async (id) => {
+  await deleteDoc(doc(db, 'services', id.toString()));
+};
+

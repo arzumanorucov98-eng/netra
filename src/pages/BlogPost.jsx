@@ -78,9 +78,12 @@ const renderMarkdownContent = (content) => {
 const BlogPost = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const [post, setPost] = useState(null);
-  const [allPosts, setAllPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  
+  // Statik datadan ilkin post-u tap (prerender üçün)
+  const initialPost = defaultBlogPosts.find(p => p.slug === slug) || null;
+  const [post, setPost] = useState(initialPost);
+  const [allPosts, setAllPosts] = useState(defaultBlogPosts);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const loadPost = async () => {
@@ -149,14 +152,83 @@ const BlogPost = () => {
         <title>{post.metaTitle || post.title + ' | Netra Marketing'}</title>
         <meta name="description" content={post.metaDescription || post.summary} />
         <meta name="keywords" content={post.tags ? post.tags.join(', ') : ''} />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Netra Marketing" />
+
+        {/* Canonical */}
+        <link rel="canonical" href={`https://netramarketing.az/blog/${post.slug}`} />
+
+        {/* Open Graph */}
         <meta property="og:title" content={post.metaTitle || post.title} />
         <meta property="og:description" content={post.metaDescription || post.summary} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`https://netramarketing.az/blog/${post.slug}`} />
         {post.image && <meta property="og:image" content={post.image} />}
+        {post.image && <meta property="og:image:alt" content={post.title} />}
+        {!post.image && <meta property="og:image" content="https://netramarketing.az/logo.jpg" />}
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:locale" content="az_AZ" />
         <meta property="og:site_name" content="Netra Marketing" />
-        <link rel="canonical" href={`https://netramarketing.az/blog/${post.slug}`} />
+
+        {/* Article-specific Open Graph */}
+        {post.date && <meta property="article:published_time" content={post.date} />}
+        <meta property="article:author" content="Netra Marketing" />
+        {post.category && <meta property="article:section" content={post.category} />}
+        {post.tags && post.tags.map((tag, i) => (
+          <meta key={i} property="article:tag" content={tag} />
+        ))}
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={post.metaTitle || post.title} />
+        <meta name="twitter:description" content={post.metaDescription || post.summary} />
+        <meta name="twitter:image" content={post.image || 'https://netramarketing.az/logo.jpg'} />
+        <meta name="twitter:image:alt" content={post.title} />
+
+        {/* JSON-LD: BlogPosting Schema */}
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BlogPosting',
+          headline: post.metaTitle || post.title,
+          description: post.metaDescription || post.summary,
+          image: post.image || 'https://netramarketing.az/logo.jpg',
+          datePublished: post.date,
+          dateModified: post.date,
+          author: {
+            '@type': 'Organization',
+            name: 'Netra Marketing',
+            url: 'https://netramarketing.az',
+          },
+          publisher: {
+            '@type': 'Organization',
+            name: 'Netra Marketing',
+            url: 'https://netramarketing.az',
+            logo: {
+              '@type': 'ImageObject',
+              url: 'https://netramarketing.az/logo.jpg',
+            },
+          },
+          mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': `https://netramarketing.az/blog/${post.slug}`,
+          },
+          keywords: post.tags ? post.tags.join(', ') : '',
+          articleSection: post.category,
+          inLanguage: 'az',
+          url: `https://netramarketing.az/blog/${post.slug}`,
+        })}</script>
+
+        {/* JSON-LD: BreadcrumbList */}
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Ana Səhifə', item: 'https://netramarketing.az' },
+            { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://netramarketing.az/blog' },
+            { '@type': 'ListItem', position: 3, name: post.title, item: `https://netramarketing.az/blog/${post.slug}` },
+          ],
+        })}</script>
       </Helmet>
 
       <motion.article 
@@ -164,8 +236,6 @@ const BlogPost = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         className="py-20 bg-light min-h-screen" 
-        itemScope 
-        itemType="https://schema.org/BlogPosting"
       >
         <div className="container mx-auto px-4 max-w-4xl">
           <Link 
@@ -176,25 +246,25 @@ const BlogPost = () => {
           </Link>
           
           {post.image && (
-            <img 
-              src={post.image} 
-              alt={post.title}
-              className="w-full h-64 md:h-96 object-cover rounded-2xl mb-8 mt-6"
-              itemProp="image"
-            />
+            <div className="w-full aspect-video overflow-hidden rounded-2xl shadow-sm mb-8 group">
+              <img 
+                src={post.image} 
+                alt={`${post.title} — Netra Marketing bloq məqaləsi`}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+            </div>
           )}
           
           <div className="flex items-center gap-4 text-sm text-gray-500 mb-4 flex-wrap">
             <Link 
               to={`/blog/category/${post.category.toLowerCase()}`}
               className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium hover:bg-blue-200 transition-colors"
-              itemProp="articleSection"
             >
               {post.category}
             </Link>
             <span className="flex items-center gap-1">
-              <Calendar size={14} />
-              <time itemProp="datePublished" dateTime={post.date}>{post.date}</time>
+              <Calendar size={16} />
+              <time dateTime={post.date}>{post.date}</time>
             </span>
             <span className="flex items-center gap-1">
               <Clock size={14} />
@@ -202,13 +272,12 @@ const BlogPost = () => {
             </span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-6" itemProp="headline">
+          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-6">
             {post.title}
           </h1>
 
           <div 
-            className="prose prose-lg max-w-none text-gray-700 leading-relaxed"
-            itemProp="articleBody"
+            className="prose prose-lg max-w-none prose-headings:text-primary prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-img:rounded-xl bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mb-12"
           >
             {renderMarkdownContent(post.content)}
           </div>
@@ -217,7 +286,7 @@ const BlogPost = () => {
             <div className="flex flex-wrap gap-2 mt-8 pt-6 border-t border-gray-200">
               <Tag size={16} className="text-gray-400" />
               {post.tags.map((tag, i) => (
-                <span key={i} className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm">
+                <span key={i} className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm font-medium">
                   {tag}
                 </span>
               ))}
@@ -261,8 +330,8 @@ const BlogPost = () => {
             </a>
           </div>
 
-          <meta itemProp="author" content="Netra Marketing" />
-          <meta itemProp="publisher" content="Netra Marketing" />
+          {/* <meta itemProp="author" content="Netra Marketing" /> */}
+          {/* <meta itemProp="publisher" content="Netra Marketing" /> */}
         </div>
       </motion.article>
     </>

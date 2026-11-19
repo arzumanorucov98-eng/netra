@@ -2,3 +2,11 @@ node_modules/
 dist/
 .env
 .DS_Store
+
+# local scripts with credentials / caches
+fix_cache.js
+push_blogs.js
+scratch_listBlogs.js
+update_images.js
+.firebase/
+vite.config.js.timestamp-*

@@ -8,8 +8,8 @@ import { packagesData as staticPackages } from '../data/content';
 
 const Packages = ({ asSection = false }) => {
   const [selectedPackage, setSelectedPackage] = useState(null);
-  const [packagesData, setPackagesData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [packagesData, setPackagesData] = useState(staticPackages);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let isMounted = true;

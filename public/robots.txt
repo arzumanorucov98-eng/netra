@@ -2,6 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /admin/
+Disallow: /admin/login
+Disallow: /admin/dashboard
 
 # AI Bots
 User-agent: GPTBot
@@ -19,6 +21,9 @@ User-agent: Bingbot
 Allow: /
 
 User-agent: Anthropic
+Allow: /
+
+User-agent: PerplexityBot
 Allow: /
 
 Sitemap: https://netramarketing.az/sitemap.xml
