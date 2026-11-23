@@ -318,6 +318,12 @@ export const packagesData = [
 
 export const partners = [
   {
+    name: "Məhəccər.az",
+    logo: "/partners/mehecceraz.jpg",
+    category: "Məhəccər Sistemləri",
+    instagram: "#"
+  },
+  {
     name: "Kərim Tərlanoğlu",
     logo: "/partners/kerimterlanoglu.jpg",
     category: "Layihə və Tikinti Bürosu",
@@ -330,9 +336,9 @@ export const partners = [
     instagram: "#"
   },
   {
-    name: "Ekspert",
-    logo: "/partners/ekspert.jpg",
-    category: "Fərdi Brend",
+    name: "Könül Nəcəfli",
+    logo: "/partners/konulnecefli.jpg",
+    category: "Nevroloq",
     instagram: "#"
   },
   {
