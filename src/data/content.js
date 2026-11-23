@@ -318,28 +318,45 @@ export const packagesData = [
 
 export const partners = [
   {
-    name: "Taxvibe",
-    logo: "/partners/taxvibe.jpg",
-    instagram: "https://www.instagram.com/taxvibe.az?igsh=MWh4ZWUyNG1vbnlsbQ%3D%3D&utm_source=qr"
+    name: "Kərim Tərlanoğlu",
+    logo: "/partners/kerimterlanoglu.jpg",
+    category: "Layihə və Tikinti Bürosu",
+    instagram: "#"
+  },
+  {
+    name: "Cleaning Express Service",
+    logo: "/partners/cleaningexpress.jpg",
+    category: "Təmizlik Xidməti",
+    instagram: "#"
+  },
+  {
+    name: "Ekspert",
+    logo: "/partners/ekspert.jpg",
+    category: "Fərdi Brend",
+    instagram: "#"
   },
   {
     name: "Çiçək Təmizlik Şirkəti",
     logo: "/partners/cicek.jpg",
+    category: "Təmizlik Xidməti",
     instagram: "https://www.instagram.com/temizlik.xidmeti.cicek?igsh=Z2U1dzNmenVzOHQx&utm_source=qr"
   },
   {
     name: "ARV DOORS",
     logo: "/partners/arvdoors.jpg",
+    category: "Qapı İstehsalı",
     instagram: "https://www.instagram.com/arvdoors.azerbaycan?igsh=MTIzZWM3azlhZWdybg%3D%3D&utm_source=qr"
   },
   {
     name: "Xəzər Stone",
     logo: "/partners/xezerstone.jpg",
+    category: "Təbii Daş Məmulatları",
     instagram: "https://www.instagram.com/xezer.stone?igsh=MWRxbDYwNTA0OW4ybQ%3D%3D&utm_source=qr"
   },
   {
     name: "Lux Cleaner",
     logo: "/partners/luxcleaner.jpg",
+    category: "Təmizlik Xidməti",
     instagram: "https://www.instagram.com/lux.cleaner.temizlik?stkn=NTN4Nzc0a2JweWN4&utm_source=qr"
   }
 ];

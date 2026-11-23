@@ -198,38 +198,48 @@ const Home = () => {
       </section>
 
       {/* Partners Section */}
-      <section className="py-20 bg-white" aria-label="Partnyorlar">
+      <section className="py-20 md:py-24 bg-gradient-to-b from-white to-gray-50" aria-label="Partnyorlar">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-primary mb-12">Bizimlə Əməkdaşlıq Edən Şirkətlər</h2>
-          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8 max-w-6xl mx-auto">
+          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-widest uppercase text-primary bg-primary/10 rounded-full">
+            Partnyorlarımız
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Bizimlə Əməkdaşlıq Edən Şirkətlər</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto mb-14">
+            Müxtəlif sahələrdən olan brendlər rəqəmsal inkişafını Netra Marketing-ə etibar edir.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6 max-w-6xl mx-auto">
             {displayPartners.map((partner, index) => {
               const linkUrl = partner.link || partner.instagram;
+              const hasLink = linkUrl && linkUrl !== "#";
               return (
               <motion.a
                 key={index}
-                href={linkUrl && linkUrl !== "#" ? linkUrl : undefined}
-                target={linkUrl && linkUrl !== "#" ? "_blank" : undefined}
-                rel={linkUrl && linkUrl !== "#" ? "noopener noreferrer" : undefined}
+                href={hasLink ? linkUrl : undefined}
+                target={hasLink ? "_blank" : undefined}
+                rel={hasLink ? "noopener noreferrer" : undefined}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-full shadow-md border border-gray-100 hover:shadow-xl hover:border-blue-300 transition-all hover:-translate-y-2 flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 overflow-hidden relative group cursor-pointer"
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                className={`group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-primary/30 hover:-translate-y-1.5 transition-all duration-300 p-6 flex flex-col items-center ${hasLink ? 'cursor-pointer' : 'cursor-default'}`}
               >
-                <div className="absolute inset-0 flex items-center justify-center p-1 md:p-2 text-center z-0 opacity-0 group-hover:opacity-100 transition-opacity bg-white/90">
-                  <h3 className="text-[8px] md:text-[10px] lg:text-xs font-bold text-primary leading-tight">{partner.name}</h3>
+                <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden ring-4 ring-gray-50 group-hover:ring-primary/20 transition-all duration-300 bg-white mb-4">
+                  {partner.logo && (
+                    <img
+                      src={partner.logo}
+                      alt={partner.name}
+                      width="112"
+                      height="112"
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
+                      onError={(e) => e.target.style.opacity = 0}
+                    />
+                  )}
                 </div>
-                {partner.logo && (
-                  <img 
-                    src={partner.logo} 
-                    alt={partner.name} 
-                    width="128"
-                    height="128"
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover scale-105 relative z-10 bg-white group-hover:opacity-0 transition-opacity duration-300 rounded-full"
-                    onError={(e) => e.target.style.opacity = 0}
-                  />
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 leading-tight">{partner.name}</h3>
+                {partner.category && (
+                  <p className="text-xs text-gray-500 mt-1">{partner.category}</p>
                 )}
               </motion.a>
               );
